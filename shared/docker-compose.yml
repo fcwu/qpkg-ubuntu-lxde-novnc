@@ -2,4 +2,4 @@ version: '2'
 
 services:
   ubuntu-lxde-novnc:
-    image: dorowu/ubuntu-lxde-novnc:qpkg-v1
+    image: dorowu/ubuntu-lxde-novnc:qpkg-v2
