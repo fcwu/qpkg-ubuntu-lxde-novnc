@@ -141,11 +141,18 @@ pkg_post_install(){
     QPKG_CONF=/etc/config/qpkg.conf
 
     DEPEND_ON=container-station
-    /sbin/setcfg $QPKG_NAME depend_on "${DEPEND_ON}" -f $QPKG_CONF
-    /sbin/setcfg $QPKG_NAME Timeout "${QPKG_TIMEOUT}" -f $QPKG_CONF
+    [ -n "${QPKG_DEPENDENCY}" ] && {
+        /sbin/setcfg $QPKG_NAME depend_on "${QPKG_DEPENDENCY}" -f $QPKG_CONF;
+        /sbin/setcfg $QPKG_NAME Dependency "${QPKG_DEPENDENCY}" -f $QPKG_CONF;
+    }
+    [ -n "${QPKG_TIMEOUT}" ] && \
+        /sbin/setcfg $QPKG_NAME Timeout "${QPKG_TIMEOUT}" -f $QPKG_CONF
+    [ -n "${QPKG_USE_PROXY}" ] && \
+        /sbin/setcfg $QPKG_NAME Use_Proxy "${QPKG_USE_PROXY}" -f $QPKG_CONF
+    [ -n "${QPKG_VISIBLE}" ] && \
+        /sbin/setcfg $QPKG_NAME Visible "${QPKG_VISIBLE}" -f $QPKG_CONF
     [ -n "${QPKG_HEALTHY_CHECK_URL}" ] && \
 		/sbin/setcfg $QPKG_NAME Healthy_Check_Url "${QPKG_HEALTHY_CHECK_URL}" -f $QPKG_CONF
     [ -n "${QPKG_HEALTHY_CHECK_CMD}" ] && \
 		/sbin/setcfg $QPKG_NAME Healthy_Check_Cmd "${QPKG_HEALTHY_CHECK_CMD}" -f $QPKG_CONF
-    INSTALL_PATH=$(/sbin/getcfg ${QPKG_NAME} Install_Path -f $QPKG_CONF)
 }
